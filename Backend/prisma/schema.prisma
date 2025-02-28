@@ -16,7 +16,7 @@ model User {
 }
 
 model Teacher {
-  id                   Int             @id @default(autoincrement())
+  id                   String             @id @default(uuid())
   name                 String          @unique
   courses              TeacherCourse[]
   reviews              Review[]
@@ -39,11 +39,11 @@ model Course {
 
 //  Many-to-Many Join Table
 model TeacherCourse {
-  teacherId Int
+  teacherId String
   courseId  Int
 
-  teacher Teacher @relation(fields: [teacherId], references: [id])
-  course  Course  @relation(fields: [courseId], references: [id])
+  teacher Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  course  Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   @@id([teacherId, courseId])
 }
@@ -51,7 +51,7 @@ model TeacherCourse {
 model Review {
   id        Int  @id @default(autoincrement())
   userId    Int
-  teacherId Int
+  teacherId String
   grading   Int? @default(0)
   teaching  Int? @default(0)
   workload  Int? @default(0)

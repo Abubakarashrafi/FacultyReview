@@ -4,7 +4,6 @@ const auth = require("../middleware/auth");
 const {createReview} = require("../controller/review");
 
 reviewRouter.post("/:teacherId",auth,createReview);
-reviewRouter.get("/:teacherId");
 
 
 

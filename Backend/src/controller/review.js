@@ -5,8 +5,8 @@ const createReview = async (req, res) => {
   try {
     const userId = req.user?.id;
     const { grading, workload, teaching,attendance } = req.body;
-    let { teacherId } = req.params;
-    teacherId = Number(teacherId);
+    const { teacherId } = req.params;
+    
     if (!userId) return res.status(400).json({ msg: "user id is missing" });
     if (!teacherId)
       return res.status(400).json({ msg: "teacher id is missing" });

@@ -40,16 +40,16 @@ const createTeacher = async (req, res) => {
           })),
         },
       },
-      include: {
-        courses: true,
-      },
+     
     });
     if (!newTeacher)
       return res.status(400).json({ error: "failed to add new teacher" });
     return res
       .status(200)
-      .json({ msg: "teacher created successfully", data: newTeacher });
+      .json({ msg: "teacher created successfully"});
   } catch (error) {
+    console.log(error.message);
+    
     return res.status(500).json({ error: "internal server error" });
   }
 };
@@ -69,7 +69,7 @@ const getAllTeachers = async (req, res) => {
     const teachers = await prisma.teacher.findMany({
       where: filter,
       orderBy: {
-        TotalReviews: order === "desc" ? "asc" : "desc",
+        TotalReviews: order === "desc" ? "desc" : "asc",
       },
       include: {
         courses: {
@@ -97,7 +97,7 @@ const getAllTeachers = async (req, res) => {
 
     const formattedTeachers = teachers.map((teacher) => ({
       id: teacher.id,
-      rating: teacher.TotalReviews / (teacher.reviews.length * 3),
+      rating: teacher.TotalReviews / (teacher.reviews.length * 4) || 0,
 
       name: teacher.name,
       courses: teacher.courses.map((c) => c.course.name),
@@ -112,8 +112,8 @@ const getAllTeachers = async (req, res) => {
 
 const getTeacher = async (req, res) => {
   try {
-    let { id } = req.params;
-    id = Number(id);
+    const { id } = req.params;
+    
     if (!id) return res.status(400).json({ error: "Invalid id" });
 
     const teacher = await prisma.teacher.findUnique({
@@ -145,17 +145,18 @@ const getTeacher = async (req, res) => {
     });
     if (!teacher) return res.status(404).json({ error: "Teacher not found" });
     const formattedCourses = teacher.courses.map((c) => c.course.name);
-    const { courses, ...rest } = teacher;
+    const { courses,reviews, ...rest } = teacher;
 
     return res
       .status(200)
       .json({
         teacher: rest,
         courses: formattedCourses,
-        avgGrading: teacher.TotalGrading_Review / teacher.reviews.length,
-        avgWorkload: teacher.TotalWorkload_Review / teacher.reviews.length,
-        avgTeaching: teacher.TotalTeaching_Review / teacher.reviews.length,
-        avgAttendance: teacher.TotalAttendance_Review / teacher.reviews.length,
+        avgGrading: (teacher.TotalGrading_Review / teacher.reviews.length) || 0,
+        avgWorkload: (teacher.TotalWorkload_Review / teacher.reviews.length) || 0,
+        avgTeaching: (teacher.TotalTeaching_Review / teacher.reviews.length) || 0,
+        avgAttendance: (teacher.TotalAttendance_Review / teacher.reviews.length) || 0,
+        ReviewCount: teacher.reviews.length,
       });
   } catch (error) {
     console.log(error.message);
