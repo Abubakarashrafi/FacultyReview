@@ -57,58 +57,47 @@ const createTeacher = async (req, res) => {
 const getAllTeachers = async (req, res) => {
   try {
     const { name, course } = req.body;
-    let { order = "desc" } = req.query;
+    let { order } = req.query;
+    order = order === "asc" ? "ASC" : "DESC"; // Default to DESC
 
-    const filter = { approved: true };
-    if (name) filter.name = { contains: name, mode: "insensitive" };
+    // Construct WHERE clause dynamically
+    let whereClause = `WHERE t.approved = true`;
+    if (name) whereClause += ` AND LOWER(t.name) LIKE LOWER('%${name}%')`;
     if (course)
-      filter.courses = {
-        some: { course: { name: { contains: course, mode: "insensitive" } } },
-      };
+      whereClause += ` AND EXISTS (
+      SELECT 1 FROM "TeacherCourse" tc 
+      JOIN "Course" c ON tc."courseId" = c.id 
+      WHERE tc."teacherId" = t.id 
+      AND LOWER(c.name) LIKE LOWER('%${course}%')
+    )`;
 
-    const teachers = await prisma.teacher.findMany({
-      where: filter,
-      orderBy: {
-        TotalReviews: order === "desc" ? "desc" : "asc",
-      },
-      include: {
-        courses: {
-          select: {
-            course: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
-        reviews: {
-          select: {
-            grading: true,
-            workload: true,
-            teaching: true,
-            Attendance: true,
-          },
-        },
-      },
-    });
+    // Query to fetch teachers, calculate avgRating, filter, and sort
+    const teachers = await prisma.$queryRawUnsafe(`
+      SELECT 
+        t.id, 
+        t.name, 
+        COALESCE(t."TotalReviews" / NULLIF(4 * (SELECT COUNT(*) FROM "Review" r WHERE r."teacherId" = t.id), 0), 0) AS "avgRating",
+        json_agg(DISTINCT c.name) AS courses
+      FROM "Teacher" t
+      LEFT JOIN "TeacherCourse" tc ON t.id = tc."teacherId"
+      LEFT JOIN "Course" c ON tc."courseId" = c.id
+      ${whereClause}
+      GROUP BY t.id, t."TotalReviews"
+      ORDER BY "avgRating" ${order}
+      LIMIT 5;
+    `);
 
     if (!teachers.length)
       return res.status(404).json({ error: "No teachers found" });
 
-    const formattedTeachers = teachers.map((teacher) => ({
-      id: teacher.id,
-      rating: teacher.TotalReviews / (teacher.reviews.length * 4) || 0,
-
-      name: teacher.name,
-      courses: teacher.courses.map((c) => c.course.name),
-    }));
-
-    return res.status(200).json({ formattedTeachers });
+    return res.status(200).json({ formattedTeachers: teachers });
   } catch (error) {
     console.log(error.message);
-    return res.status(500).json({ error: "internal server error" });
+    return res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
 
 const getTeacher = async (req, res) => {
   try {
@@ -213,5 +202,7 @@ if(!user) return res.status(404).json({error:"User not found"})
   return res.status(200).json({data})
 
 }
+
+
 
 module.exports = { createTeacher, getAllTeachers, getTeacher,getUserReviewedTeachers };

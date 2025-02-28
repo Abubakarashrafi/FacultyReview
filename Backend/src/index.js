@@ -21,6 +21,8 @@ app.use("/review", reviewRoute);
 const userRoute = require("./routes/user");
 app.use("/user", userRoute);
 
+const adminRoute = require("./routes/admin");
+app.use("/admin", adminRoute);    
 
 
 app.listen(PORT, () => {
