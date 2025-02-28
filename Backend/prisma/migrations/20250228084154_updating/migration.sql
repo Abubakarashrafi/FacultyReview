@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Teacher" ADD COLUMN     "avgGrading_Review" DOUBLE PRECISION DEFAULT 0,
+ADD COLUMN     "avgTeaching_Review" DOUBLE PRECISION DEFAULT 0,
+ADD COLUMN     "avgWorkload_Review" DOUBLE PRECISION DEFAULT 0;

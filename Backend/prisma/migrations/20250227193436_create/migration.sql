@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Review" ALTER COLUMN "grading" SET DEFAULT 0,
+ALTER COLUMN "teaching" SET DEFAULT 0,
+ALTER COLUMN "workload" SET DEFAULT 0;
