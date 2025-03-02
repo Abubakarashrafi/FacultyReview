@@ -1,18 +1,35 @@
 import React from "react";
 import Navbar from "./components/NavBar/Navbar";
-import Hero from "./components/Homepage/Hero";
+import { RouterProvider, createBrowserRouter } from "react-router"
+import Home from "./pages/Home";
+import Layout from "./components/Layout";
+import { TeacherProvider } from "./context/TeachersContext";
 
 const App = () => {
-  return (
-    <div className="app">
-      <nav>
-        <Navbar />
-      </nav>
+  const router = createBrowserRouter([
+    {
+      path: "/",
 
-      <main>
-        <Hero />
-      </main>
-    </div>
+      element: <Layout />,
+      children:[
+        {
+          index:true,
+          element:<Home/>
+        }
+      ]
+    },
+
+  ])
+  return (
+   <>
+   <TeacherProvider>
+
+   <div className="overflow-hidden">
+
+   <RouterProvider router={router}/>
+   </div>
+   </TeacherProvider>
+   </>
   );
 };
 

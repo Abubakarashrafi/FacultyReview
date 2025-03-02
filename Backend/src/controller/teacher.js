@@ -56,19 +56,18 @@ const createTeacher = async (req, res) => {
 
 const getAllTeachers = async (req, res) => {
   try {
-    const { name, course } = req.body;
-    let { order } = req.query;
+    
+    let { search,order } = req.query;
     order = order === "asc" ? "ASC" : "DESC"; // Default to DESC
 
     // Construct WHERE clause dynamically
     let whereClause = `WHERE t.approved = true`;
-    if (name) whereClause += ` AND LOWER(t.name) LIKE LOWER('%${name}%')`;
-    if (course)
-      whereClause += ` AND EXISTS (
+     whereClause += ` AND LOWER(t.name) LIKE LOWER('%${search}%')`;
+      whereClause += ` OR EXISTS (
       SELECT 1 FROM "TeacherCourse" tc 
       JOIN "Course" c ON tc."courseId" = c.id 
       WHERE tc."teacherId" = t.id 
-      AND LOWER(c.name) LIKE LOWER('%${course}%')
+      AND LOWER(c.name) LIKE LOWER('%${search}%')
     )`;
 
     // Query to fetch teachers, calculate avgRating, filter, and sort
@@ -84,7 +83,7 @@ const getAllTeachers = async (req, res) => {
       ${whereClause}
       GROUP BY t.id, t."TotalReviews"
       ORDER BY "avgRating" ${order}
-      LIMIT 5;
+      LIMIT 6;
     `);
 
     if (!teachers.length)
