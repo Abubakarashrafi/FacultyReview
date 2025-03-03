@@ -1,11 +1,17 @@
-import React from 'react'
+import { NavLink } from "react-router-dom"
 
-function NavTab({text,href,className}) {
+function NavTab({ text, to, className }) {
   return (
-
-      <button className={`${className} text-sm transition-colors text-slate-500 hover:text-[#2563EB]  font-medium`}>{text}</button>
-    
+    <NavLink
+      to={to}
+      className={({ isActive }) =>
+        `text-sm transition-colors ${isActive ? "text-[#2563EB] font-semibold" : "text-slate-500 hover:text-[#2563EB] font-medium"} ${className}`
+      }
+    >
+      {text}
+    </NavLink>
   )
 }
 
 export default NavTab
+
