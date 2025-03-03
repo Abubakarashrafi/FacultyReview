@@ -48,7 +48,7 @@ const createTeacher = async (req, res) => {
       .status(200)
       .json({ msg: "teacher created successfully"});
   } catch (error) {
-    console.log(error.message);
+   
     
     return res.status(500).json({ error: "internal server error" });
   }
@@ -71,27 +71,27 @@ const getAllTeachers = async (req, res) => {
     )`;
 
     // Query to fetch teachers, calculate avgRating, filter, and sort
-    const teachers = await prisma.$queryRawUnsafe(`
-      SELECT 
-        t.id, 
-        t.name, 
-        COALESCE(t."TotalReviews" / NULLIF(4 * (SELECT COUNT(*) FROM "Review" r WHERE r."teacherId" = t.id), 0), 0) AS "avgRating",
-        json_agg(DISTINCT c.name) AS courses
-      FROM "Teacher" t
-      LEFT JOIN "TeacherCourse" tc ON t.id = tc."teacherId"
-      LEFT JOIN "Course" c ON tc."courseId" = c.id
-      ${whereClause}
-      GROUP BY t.id, t."TotalReviews"
-      ORDER BY "avgRating" ${order}
-      LIMIT 6;
-    `);
+  const teachers = await prisma.$queryRawUnsafe(`
+  SELECT 
+    t.id, 
+    t.name, 
+    COALESCE(t."TotalReviews" / NULLIF(4 * (SELECT COUNT(*) FROM "Review" r WHERE r."teacherId" = t.id), 0), 0) AS "avgRating",
+    (SELECT COUNT(*) FROM "Review" r WHERE r."teacherId" = t.id)::TEXT AS "reviewCount", -- Corrected review count
+    json_agg(DISTINCT c.name) AS courses
+  FROM "Teacher" t
+  LEFT JOIN "TeacherCourse" tc ON t.id = tc."teacherId"
+  LEFT JOIN "Course" c ON tc."courseId" = c.id
+  ${whereClause}
+  GROUP BY t.id, t."TotalReviews"
+  ORDER BY "avgRating" ${order}
+  LIMIT 6;
+`);
 
-    if (!teachers.length)
-      return res.status(404).json({ error: "No teachers found" });
+   
 
     return res.status(200).json({ formattedTeachers: teachers });
   } catch (error) {
-    console.log(error.message);
+   
     return res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -134,20 +134,30 @@ const getTeacher = async (req, res) => {
     if (!teacher) return res.status(404).json({ error: "Teacher not found" });
     const formattedCourses = teacher.courses.map((c) => c.course.name);
     const { courses,reviews, ...rest } = teacher;
+     const avgGrading =
+       teacher.TotalGrading_Review / teacher.reviews.length || 0;
+     const avgWorkload =
+       teacher.TotalWorkload_Review / teacher.reviews.length || 0;
+     const avgTeaching =
+       teacher.TotalTeaching_Review / teacher.reviews.length || 0;
+     const avgAttendance =
+       teacher.TotalAttendance_Review / teacher.reviews.length || 0;
 
-    return res
-      .status(200)
-      .json({
-        teacher: rest,
-        courses: formattedCourses,
-        avgGrading: (teacher.TotalGrading_Review / teacher.reviews.length) || 0,
-        avgWorkload: (teacher.TotalWorkload_Review / teacher.reviews.length) || 0,
-        avgTeaching: (teacher.TotalTeaching_Review / teacher.reviews.length) || 0,
-        avgAttendance: (teacher.TotalAttendance_Review / teacher.reviews.length) || 0,
-        ReviewCount: teacher.reviews.length,
-      });
+     // Calculate overall average
+     const overallAverage =
+       (avgGrading + avgWorkload + avgTeaching + avgAttendance) / 4;
+    return res.status(200).json({
+      teacher: rest,
+      courses: formattedCourses,
+      avgGrading: Number(avgGrading.toFixed(2)),
+      avgWorkload: Number(avgWorkload.toFixed(2)),
+      avgTeaching: Number(avgTeaching.toFixed(2)),
+      avgAttendance: Number(avgAttendance.toFixed(2)),
+      overallAverage: Number(overallAverage.toFixed(2)),
+      ReviewCount: teacher.reviews.length,
+    });
   } catch (error) {
-    console.log(error.message);
+   
     return res.status(500).json({ error: "internal server error" });
   }
 };

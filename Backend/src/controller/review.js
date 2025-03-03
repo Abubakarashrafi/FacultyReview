@@ -80,7 +80,7 @@ const createReview = async (req, res) => {
         .json({ msg: "something went wrong while adding review" });
     return res.status(200).json({ msg: "review added successfully" });
   } catch (error) {
-    console.log(error.message);
+  
     
     return res.status(500).json({ msg: "internal server error" });
   }

@@ -8,6 +8,7 @@ export const TeacherProvider = ({children})=>{
     const [teachers,setTeachers] = useState([]);
     const [loading,setLoading] = useState(false);
     const [error,setError] = useState(null);
+    const [teacher,setTeacher] = useState({});
     
     const fetchTeachers = useCallback(async(query,order,signal)=>{
     setLoading(true);
@@ -19,7 +20,7 @@ export const TeacherProvider = ({children})=>{
             signal,
         });
         setTeachers(resp.data.formattedTeachers);
-        console.log(resp.data.formattedTeachers);
+       
         
     } catch (err) {
         if(!axios.isCancel(err)){
@@ -29,13 +30,31 @@ export const TeacherProvider = ({children})=>{
         setLoading(false);
     }
    },[])
+
+   const fetchTeacherById = useCallback(async(id)=>{
+    setLoading(true)
+    setError(null);
+    try {
+        const resp = await axios.get(`http://localhost:4000/teacher/${id}`);
+        setTeacher(resp.data);
+        console.log(resp.data);
+        
+    } catch (error) {
+        setError(error.message);
+    }finally{
+        setLoading(false);
+    }
+   },[]) 
+
    return (
     <TeacherContext.Provider
     value={{
         teachers,
+        teacher,
         loading,
         error,
         fetchTeachers,
+        fetchTeacherById
     }}
     >
         {children}

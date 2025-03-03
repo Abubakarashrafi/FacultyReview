@@ -13,7 +13,7 @@ function Searching() {
             }
             abortControllerRef.current = new AbortController();
             fetchTeachers(searchQuery, order, abortControllerRef.current.signal);
-        }, 500); 
+        }, 300); 
 
         return () => {
             clearTimeout(debounceTimer);
@@ -25,10 +25,10 @@ function Searching() {
   return (
       <div className='sm:flex   gap-4 my-4 md:my-0'>
 
-      <div class="w-full min-w-[300px]">
-          <div class="relative flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="absolute w-5 h-5 top-2.5 left-2.5 text-slate-600">
-                  <path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" clip-rule="evenodd" />
+      <div className="w-full min-w-[300px]">
+          <div className="relative flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="absolute w-5 h-5 top-2.5 left-2.5 text-slate-600">
+                  <path fillRule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" clipRule="evenodd" />
               </svg>
 
               <input
@@ -46,7 +46,7 @@ function Searching() {
 
 
                   <select  value={order} onChange={(e)=> setOrder(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2  ">
-                      <option value={"desc"} selected>Highest Rated</option>
+                      <option value={"desc"} >Highest Rated</option>
                       <option value={"asc"}>Lowest Rated</option>
                   </select>
               </div>      

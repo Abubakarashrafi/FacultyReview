@@ -1,9 +1,9 @@
 import React from "react";
-import Navbar from "./components/NavBar/Navbar";
 import { RouterProvider, createBrowserRouter } from "react-router"
 import Home from "./pages/Home";
 import Layout from "./components/Layout";
 import { TeacherProvider } from "./context/TeachersContext";
+import TeacherDetail from "./components/TeacherDetail/TeacherDetail";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -15,6 +15,10 @@ const App = () => {
         {
           index:true,
           element:<Home/>
+        },
+        {
+          path:"/teacher/:id",
+          element: <TeacherDetail/>
         }
       ]
     },

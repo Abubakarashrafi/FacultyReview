@@ -39,7 +39,7 @@ const getUserReview = async (req, res) => {
       return res.status(400).json({ msg: "review doesn't exist" });
     return res.status(200).json({ teacherReviews });
   } catch (error) {
-    console.log(error.message);
+   
     return res.status(500).json({ msg: "internal server error" });
   }
 };
