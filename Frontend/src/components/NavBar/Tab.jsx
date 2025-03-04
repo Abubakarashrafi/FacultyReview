@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom"; // Fix incorrect import
+import { NavLink } from "react-router-dom"; 
 
 function NavTab({ text, to, className }) {
   return (

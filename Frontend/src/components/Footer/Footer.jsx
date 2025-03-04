@@ -1,8 +1,8 @@
 import React from 'react'
 
-function Footer() {
+const Footer = () => {
   return (
-    <div className='container'></div>
+    <div>Footer</div>
   )
 }
 
