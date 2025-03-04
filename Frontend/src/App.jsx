@@ -1,3 +1,4 @@
+
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import Home from "./pages/Home"
 import AdminPanel from "./pages/AdminPanel"
@@ -34,6 +35,15 @@ const router = createBrowserRouter([
     ],
   },
 ])
+
+const App = () => {
+
+import React from "react";
+import { RouterProvider, createBrowserRouter } from "react-router"
+import Home from "./pages/Home";
+import Layout from "./components/Layout";
+import { TeacherProvider } from "./context/TeachersContext";
+import TeacherDetail from "./components/TeacherDetail/TeacherDetail";
 
 const App = () => {
   return (

@@ -73,7 +73,7 @@ const approveTeacher = async (req, res) => {
       // "P2025" means "Record not found"
       return res.status(404).json({ msg: "No teacher found" });
     }
-    console.log(error.message);
+   
 
     return res.status(500).json({ msg: "internal server error" });
   }
@@ -221,7 +221,7 @@ const removeCourseFromTeacher = async (req, res) => {
 
     return res.status(200).json({ message: "Course removed" });
   } catch (error) {
-    console.error(error);
+   
     return res
       .status(500)
       .json({ error: "Record doesn't exist", msg: error.message });

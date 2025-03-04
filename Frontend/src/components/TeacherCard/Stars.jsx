@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 
-const StarRating = ({ rating }) => {
+const StarRating = ({ rating,size=24 }) => {
     // Total number of stars
     const totalStars = 5;
 
@@ -11,7 +11,7 @@ const StarRating = ({ rating }) => {
     const emptyStars = totalStars - fullStars - (hasHalfStar ? 1 : 0);
 
     return (
-        <div className="flex items-center text-[24px]">
+        <div className={`flex items-center text-[${size}px]`}>
             {/* Render full stars */}
             {Array.from({ length: fullStars }, (_, index) => (
                 <FaStar key={`full-${index}`} className="mr-[4px] text-blue-600" />

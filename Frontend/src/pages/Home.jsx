@@ -6,6 +6,7 @@ import TeacherCard from '../components/TeacherCard/TeacherCard'
 import Button from '../components/Button'
 import CardData from '../components/CardData'
 import { useTeachers } from '../context/TeachersContext'
+import NotFound from '../components/TeacherCard/NotFound'
 
 function Home() {
   const {teachers,loading,error} = useTeachers();
@@ -28,14 +29,22 @@ function Home() {
         
         </div>
         </div>
+        <div className='py-10'>
+      {teachers?.length >0 ? (
+
         <div className='py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
           {teachers.map((data)=>(
-            <div key={data?.name}>
-              <TeacherCard name={data?.name} rating={data?.avgRating} courses={data?.courses.slice(0,2)}  />
+            <div key={data?.id}>
+              <TeacherCard id={data?.id} name={data?.name} totalRatings={data?.reviewCount} rating={data?.avgRating} courses={data?.courses.slice(0,2)}  />
             </div>
           ))}
         </div>
+        ) : <div>
+          <NotFound/>
+        </div>
+          }
       </div>
+        </div>
 
       <div className='bg-slate-100'>
       <div className='  grid gap-6 lg:grid-cols-2 lg:gap-12 items-center lg:py-12 container'>
