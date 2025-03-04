@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 
-const StarRating = ({ rating,size=24 }) => {
+const StarRating = ({ rating,size }) => {
     // Total number of stars
     const totalStars = 5;
 
