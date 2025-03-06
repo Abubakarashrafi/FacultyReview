@@ -1,15 +1,18 @@
 import React from 'react'
-import { Link } from "react-router"
 
 import { IoIosArrowRoundBack } from "react-icons/io";
-function Navigation({text,to}) {
+import { useNavigate } from 'react-router';
+function Navigation({text}) {
+    const navigate = useNavigate();
   return (
-      <Link to={to}>
-          <div className=' hover:underline  flex cursor-pointer items-center gap-2 text-blue-600 text-lg'>
+      
+          <div
+          onClick={()=> navigate("/")}
+          className=' hover:underline  flex cursor-pointer items-center gap-2 text-blue-600  text-lg'>
               <IoIosArrowRoundBack />
-              <p className=''>{text}</p>
+              <p className='hover:text-blue-800 transition-colors duration-200'>{text}</p>
           </div>
-      </Link>
+     
   )
 }
 

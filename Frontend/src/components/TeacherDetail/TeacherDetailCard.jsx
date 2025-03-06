@@ -1,13 +1,13 @@
 import React from 'react'
 import { LuUsers } from "react-icons/lu";
-import Button from "../Button"
+import Button from "../ui/Button"
 import StarRating from "../TeacherCard/Stars"
 import { useTeachers } from '../../context/TeachersContext';
 
 function TeacherDetailCard() {
     const { teacher } = useTeachers();
     return (
-        <div className='border my-10'>
+        <div className='border rounded-lg shadow-lg overflow-hidden my-10'>
 
             <div className='px-6 pt-4  sm:flex justify-between items-center  '>
 
@@ -18,11 +18,11 @@ function TeacherDetailCard() {
 
                     <div className='py-4 sm:py-0'>
 
-                        <p className='text-2xl md:text-3xl font-medium'>{teacher?.teacher?.name}</p>
-                        <div className='my-2 gap-2 px-4 bg-blue-600/10 rounded-full  flex items-center w-40'>
+                        <p className='text-2xl md:text-3xl text-gray-800  font-medium'>{teacher?.teacher?.name}</p>
+                        <div className='my-2 gap-2 px-4 bg-blue-600/10 rounded-full  inline-flex items-center w-40'>
 
                             <LuUsers />
-                            <p className='font-medium'> {`${teacher?.ReviewCount} rating `} </p>
+                            <p className='font-medium text-blue-600'> {`${teacher?.ReviewCount} rating `} </p>
                         </div>
                     </div>
                 </div>
@@ -40,7 +40,7 @@ function TeacherDetailCard() {
             <div className='px-6 flex justify-end mb-6 mt-4 sm:mt-0'>
 
 
-                <Button text={"Rate this professor"} color={"PRIMARY"} className={"py-2.5 px-4"} />
+                <Button href={`/add-review?teacherId=${teacher?.teacher?.id}`} text={"Rate this professor"} color={"PRIMARY"} className={"py-2.5 px-4"} />
 
             </div>
         </div>

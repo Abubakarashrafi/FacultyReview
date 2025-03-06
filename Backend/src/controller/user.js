@@ -3,24 +3,14 @@ const prisma = require(".././db/db.config");
 
 const createUser = async(req,res) => {
     try {
-        const {fingerprint} = req.body;
-        
-        if(!fingerprint) return res.status(400).json({error:"fingerprint required"});
-    
-        let user = await prisma.user.findUnique({
-            where:{
-                authId:fingerprint 
-            }
-        })
-       
-        if(!user){
-            user = await prisma.user.create({
+     
+          const user = await prisma.user.create({
                 data:{
                     
                     authId:fingerprint
                 }
-            }) 
-        } 
+                  
+        } );
         return res.status(200).json({userId:user.id,role:user.role})
     } catch (error) {
         return res.status(500).json({error:"server error"});

@@ -3,20 +3,24 @@ const prisma = require(".././db/db.config");
 
 const createReview = async (req, res) => {
   try {
+    console.log("hello");
+    
     const userId = req.user?.id;
     const { grading, workload, teaching,attendance } = req.body;
     const { teacherId } = req.params;
     
-    if (!userId) return res.status(400).json({ msg: "user id is missing" });
+    if (!userId) return res.status(400).json({ error: "user id is missing" });
+    
+    
     if (!teacherId)
-      return res.status(400).json({ msg: "teacher id is missing" });
+      return res.status(400).json({ error: "teacher id is missing" });
 
     if (
       [grading, workload, teaching,attendance].some(
         (field) => field == null || isNaN(field)
       )
     )
-      return res.status(400).json({ msg: "all fields are required" });
+      return res.status(400).json({ error: "all fields are required" });
 
     const teacherWithReviews = await prisma.teacher.findUnique({
       where: {
@@ -33,9 +37,9 @@ const createReview = async (req, res) => {
     });
 
     if (!teacherWithReviews)
-      return res.status(400).json({ msg: "teacher doesn't exist" });
+      return res.status(400).json({ error: "Teacher doesn't exist" });
     if (teacherWithReviews.reviews.length > 0)
-      return res.status(400).json({ msg: "review already exist" });
+      return res.status(409).json({ error: "review already exist" });
 
     const addReview = await prisma.review.create({
       data: {
@@ -72,17 +76,17 @@ const createReview = async (req, res) => {
     }
   });
     
-    if(!updateRating) return res.status(400).json({msg:"something went wrong while updating rating"})
+    if(!updateRating) return res.status(400).json({error:"something went wrong while updating rating"})
 
     if (!addReview)
       return res
         .status(400)
-        .json({ msg: "something went wrong while adding review" });
+        .json({ error: "something went wrong while adding review" });
     return res.status(200).json({ msg: "review added successfully" });
   } catch (error) {
   
     
-    return res.status(500).json({ msg: "internal server error" });
+    return res.status(500).json({ error: "internal server error" });
   }
 };
 

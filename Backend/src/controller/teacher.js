@@ -7,7 +7,12 @@ const createTeacher = async (req, res) => {
     const userId = req.user.id;
 
     if (!name || !Array.isArray(courses))
-      return res.status(400).json({ error: "Name and courses are required" });
+      return res
+        .status(400)
+        .json({
+          error:
+            "Name and courses are required. Please provide a valid name and a list of courses.",
+        });
 
     const User = await prisma.user.findUnique({
       where: {
@@ -22,9 +27,11 @@ const createTeacher = async (req, res) => {
       },
     });
     if (isTeacher)
-      return res.status(400).json({ error: "Teacher already exist" });
+      return res.status(409).json({ error: "Teacher already exists" });
 
     const isAdmin = req.user.role === "ADMIN";
+  
+    
     const newTeacher = await prisma.teacher.create({
       data: {
         name,
@@ -43,10 +50,12 @@ const createTeacher = async (req, res) => {
      
     });
     if (!newTeacher)
-      return res.status(400).json({ error: "failed to add new teacher" });
+      return res
+        .status(400)
+        .json({ error: "Failed to create a new teacher. Please try again." });
     return res
       .status(200)
-      .json({ msg: "teacher created successfully"});
+      .json({ msg: "Teacher added successfully. Pending admin approval." });
   } catch (error) {
    
     
@@ -61,14 +70,14 @@ const getAllTeachers = async (req, res) => {
     order = order === "asc" ? "ASC" : "DESC"; // Default to DESC
 
     // Construct WHERE clause dynamically
-    let whereClause = `WHERE t.approved = true`;
-     whereClause += ` AND LOWER(t.name) LIKE LOWER('%${search}%')`;
+    let whereClause = `WHERE t.approved = true AND (`;
+     whereClause += ` LOWER(t.name) LIKE LOWER('%${search}%')`;
       whereClause += ` OR EXISTS (
       SELECT 1 FROM "TeacherCourse" tc 
       JOIN "Course" c ON tc."courseId" = c.id 
       WHERE tc."teacherId" = t.id 
       AND LOWER(c.name) LIKE LOWER('%${search}%')
-    )`;
+  ) )`;
 
     // Query to fetch teachers, calculate avgRating, filter, and sort
   const teachers = await prisma.$queryRawUnsafe(`
@@ -92,7 +101,7 @@ const getAllTeachers = async (req, res) => {
     return res.status(200).json({ formattedTeachers: teachers });
   } catch (error) {
    
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ error: "Internal server error",err:error.message });
   }
 };
 
@@ -111,6 +120,7 @@ const getTeacher = async (req, res) => {
       },
       select: {
         name: true,
+        id:true,
         TotalReviews: true,
         TotalGrading_Review: true,
         TotalWorkload_Review: true,

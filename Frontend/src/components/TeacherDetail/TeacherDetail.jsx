@@ -11,23 +11,22 @@ import { useTeachers } from '../../context/TeachersContext';
 
 
 function TeacherDetail() {
-    const {fetchTeacherById,loading,teacher} = useTeachers();
+    const { fetchTeacherById, loading, teacher } = useTeachers();
 
-    const {id} = useParams();
+    const { id } = useParams();
     useEffect(() => {
         if (id) {
             fetchTeacherById(id);
         }
     }, [id, fetchTeacherById]);
 
-    // Loading state
-    if (loading) {
-        return <p>Loading...</p>;
-    }
+    
     return (
-        <div className='container py-20'>
+        <div className='container  py-20'>
+            <div className=' w-48'>
 
             <Navigation text={"Back to Faculty"} to={"/"} />
+            </div>
 
             <TeacherDetailCard />
 
@@ -80,15 +79,15 @@ function TeacherDetail() {
                         <Heading heading={"Courses Taught"} descriptiom={"Classes offered by this professor"} />
                         <ul className="space-y-4 my-4">
 
-                            {teacher?.courses?.map((name,index)=>(
+                            {teacher?.courses?.map((name, index) => (
 
                                 <li key={index} className="p-2 bg-white shadow-sm rounded-lg flex gap-4 items-center hover:bg-slate-100">
-                                <div className='w-6 h-6 flex items-center    justify-center rounded-full border text-xs'>
-                                    {index+1}
-                                </div>
-                                <h3 className="text-lg font-semibold text-gray-700">{name}</h3>
+                                    <div className='w-6 h-6 flex items-center    justify-center rounded-full border text-xs'>
+                                        {index + 1}
+                                    </div>
+                                    <h3 className="text-lg font-semibold text-gray-700">{name}</h3>
 
-                            </li>
+                                </li>
                             ))}
 
 

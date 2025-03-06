@@ -1,25 +1,28 @@
-import {createContext, useCallback, useState,useContext} from "react";
+import {createContext, useCallback, useState,useContext, useEffect} from "react";
 import axios from "axios";
-
 const TeacherContext = createContext();
 
 
 export const TeacherProvider = ({children})=>{
+    
     const [teachers,setTeachers] = useState([]);
     const [loading,setLoading] = useState(false);
     const [error,setError] = useState(null);
     const [teacher,setTeacher] = useState({});
     
+   
+
     const fetchTeachers = useCallback(async(query,order,signal)=>{
     setLoading(true);
     setError(null);
 
     try {
-        const resp = await axios.get('http://localhost:4000/teacher',{
+        const resp = await axios.get(`${import.meta.env.VITE_API_URL}/teacher`,{
             params:{search:query,order},
             signal,
         });
         setTeachers(resp.data.formattedTeachers);
+       
        
         
     } catch (err) {
@@ -35,10 +38,9 @@ export const TeacherProvider = ({children})=>{
     setLoading(true)
     setError(null);
     try {
-        const resp = await axios.get(`http://localhost:4000/teacher/${id}`);
+        const resp = await axios.get(`${import.meta.env.VITE_API_URL}/teacher/${id}`);
         setTeacher(resp.data);
-        console.log(resp.data);
-        
+       
     } catch (error) {
         setError(error.message);
     }finally{

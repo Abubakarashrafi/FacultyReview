@@ -5,7 +5,7 @@ const BottomNav = () => {
     return (
         <div className="fixed inset-x-0  bottom-0 bg-white border-t border-gray-200 shadow-lg">
             <div  className="grid grid-cols-4 max-w-lg mx-auto items-center p-1">
-                {/* Home Button */}
+                
                 <NavButton 
                 to={"/"}
                 name="Home">
@@ -25,7 +25,7 @@ const BottomNav = () => {
                     </svg>
                 </NavButton>
 
-                {/* Add Reviews Button */}
+               
                 <NavButton 
                 to={"/add-review"}
                 name="Add">
@@ -45,7 +45,7 @@ const BottomNav = () => {
                     </svg>
                 </NavButton>
                     
-                {/* My Reviews Button */}
+               
                 <NavButton 
                 to={"/My-reviews"}
                 name="Reviews">
@@ -65,9 +65,9 @@ const BottomNav = () => {
                     </svg>
                 </NavButton>
 
-                {/* About Us Button */}
+              
                 <NavButton 
-                to={"/About-us"}
+                to={"/about-us"}
                 name="About Us">
                     <svg
                         className="w-6 h-6 text-gray-500 group-hover:text-blue-600"
@@ -92,7 +92,7 @@ const BottomNav = () => {
 
 const NavButton = ({ name, children, to }) => {
     return (
-        <NavLink to={to}>
+        <NavLink to={to} end>
             {({ isActive }) => (
                 <button
                     type="button"

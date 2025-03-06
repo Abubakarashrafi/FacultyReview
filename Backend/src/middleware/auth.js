@@ -1,35 +1,59 @@
 const express= require("express");
 const prisma = require("../db/db.config");
+const { v4: uuidv4 } = require("uuid");
 
 const auth = async(req,res,next)=>{
-    try {
-        
-        const fingerprint  = req.headers["x-fingerprint"];
-
-        if(!fingerprint) return res.status(401).json({error:"Fingerprint required"});
-
-        const user = await prisma.user.findUnique({
-            where:{
-                authId:fingerprint
-            },
-            select:{
-                id:true,
-                role:true
+   
+    
+      try {
+        const authToken = req.cookies?.authToken; 
+    
+        if (!authToken) {
+          const sessionToken = uuidv4();
+         const newUser= await prisma.user.create({
+            data:{
+              role:"USER",
+              authId:sessionToken,
+              
             }
-    
-        })
-       
-        
-        if(!user) return res.status(403).json({error:"User doesn't exist"});
-        req.user = user;
-        next();
-    } catch (error) {
-       
-        
-        res.status(500).json({ error: "Server error" });
+          })
+          res.cookie("authToken", sessionToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "Strict",
+            maxAge: 10 * 365 * 24 * 60 * 60 * 1000,
+          });
+           req.user = { id: newUser.id, role: newUser.role };
+           return next();
     }
-    
 
-}
+      
+        const session = await prisma.user.findUnique({
+          where: {
+            authId:authToken
+          },
+          select:{
+            id:true,
+            role:true
+          }
+        });
+
+        if (!session) {
+      return res.status(400).json({error:"user not found"});
+          
+        }
+
+       
+        req.user = session;
+        next();
+      } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ error: "Server error" });
+      }
+    };
+
+ 
+
+
 
 module.exports = auth;

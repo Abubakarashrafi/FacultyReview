@@ -2,13 +2,13 @@ import React from 'react'
 import CardHeader from './CardHeader'
 import StarRating from './Stars'
 import Pill from "./Pill"
-import Button from '../Button'
-import {Link} from "react-router"
+import Button from '../ui/Button'
 
 function TeacherCard({rating,name,totalRatings,courses=[],id}) {
+
   return (
-    <div className='border   rounded-t-xl'>
-      <CardHeader name={name} />
+    <div className='border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all hover:scale-105  duration-200 ease-in-out'>
+      <CardHeader  name={name} />
       <div className='px-4 py-6 space-y-4 '>
         <div className='flex justify-between'>
 
@@ -31,17 +31,21 @@ function TeacherCard({rating,name,totalRatings,courses=[],id}) {
         
       </div>
       <div className='flex justify-between p-4 bg-gray-100'>
-        <Link to={`/teacher/${id}`}>
-        <Button className='text-sm p-2 rounded-lg font-medium'
+     
+        <Button href={`/teacher/${id}`}  className='text-sm p-2 rounded-lg font-medium'
         color={"DEFAULT"}
         text={"View Details"}
         />
-        </Link>
-                  
-        <Button className='bg-blue-600 text-white p-2 rounded-lg px-3 text-sm'
+        
+     
+        
+        <Button
+        href={`/add-review?teacherId=${id}`}
+        className='bg-blue-600 text-white p-2 rounded-lg px-3 text-sm'
         color={"PRIMARY"}
         text={"Rate Now"}
         />
+                  
         
                 
       </div>

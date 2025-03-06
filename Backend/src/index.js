@@ -5,7 +5,14 @@ const PORT = 4000 || process.env.PORT;
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors());
+
+
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Replace with your frontend domain
+    credentials: true, // Allow credentials (cookies)
+  })
+);
 app.get("/", (req, res) => {
     res.send("hello");
 })
@@ -13,16 +20,16 @@ app.get("/", (req, res) => {
 
 const teacherRoute = require("./routes/teacher");
 
-app.use("/teacher", teacherRoute);
+app.use("/api/v1/teacher", teacherRoute);
 
 const reviewRoute = require("./routes/review");
-app.use("/review", reviewRoute);
+app.use("/api/v1/review", reviewRoute);
 
 const userRoute = require("./routes/user");
-app.use("/user", userRoute);
+app.use("/api/v1/user", userRoute);
 
 const adminRoute = require("./routes/admin");
-app.use("/admin", adminRoute);    
+app.use("/api/v1/admin", adminRoute);    
 
 
 app.listen(PORT, () => {

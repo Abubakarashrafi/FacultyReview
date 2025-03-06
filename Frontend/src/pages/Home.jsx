@@ -1,15 +1,16 @@
 import React from 'react'
 import Hero from '../components/Hero/Hero'
-import Searching from '../components/Searching'
-
+import Searching from '../components/ui/Searching'
+import Loader from "../components/ui/Loader"
 import TeacherCard from '../components/TeacherCard/TeacherCard'
-import Button from '../components/Button'
-import CardData from '../components/CardData'
+import Button from '../components/ui/Button'
+import CardData from '../components/ui/CardData'
 import { useTeachers } from '../context/TeachersContext'
 import NotFound from '../components/TeacherCard/NotFound'
 
 function Home() {
   const {teachers,loading,error} = useTeachers();
+ 
   return (
     <div className=''>
       <div>
@@ -17,9 +18,9 @@ function Home() {
       </div>
 
       <div className='bg-white py-10 container'>
-        <div className='md:flex  justify-between items-center'>
+        <div className='md:flex   justify-between items-center bg-white/10 backdrop-blur-sm rounded-lg shadow-sm'>
 
-      <h2 className='font-semibold text-2xl'>Faculty Directory</h2>
+      <h2 className='font-semibold text-2xl text-gray-800'>Faculty Directory</h2>
       <div className=' sm:flex   gap-4 my-4 md:my-0 '>
         <div className=''>
 
@@ -30,23 +31,34 @@ function Home() {
         </div>
         </div>
         <div className='py-10'>
-      {teachers?.length >0 ? (
-
+         {loading ? (
+          <Loader/>
+         )
+        : 
+         
+      teachers?.length >0 ? (
+        
         <div className='py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-          {teachers.map((data)=>(
-            <div key={data?.id}>
+        {teachers.map((data)=>(
+          <div key={data?.id}
+          className=''
+          >
               <TeacherCard id={data?.id} name={data?.name} totalRatings={data?.reviewCount} rating={data?.avgRating} courses={data?.courses.slice(0,2)}  />
             </div>
           ))}
-        </div>
-        ) : <div>
+          </div>
+        ) : (
+
+          <div>
           <NotFound/>
-        </div>
-          }
+          </div>
+        )}
+    
+  
       </div>
         </div>
 
-      <div className='bg-slate-100'>
+      <div className='bg-blue-50'>
       <div className='  grid gap-6 lg:grid-cols-2 lg:gap-12 items-center lg:py-12 container'>
       <div  className='pt-32 mb-4 w-full'>
       <h2 className='text-3xl md:text-4xl font-semibold'>
@@ -57,7 +69,8 @@ function Home() {
     
 
           <Button 
-          color={"PRIMARY"}
+          href={"/add-review"}
+           color={"PRIMARY"}
           text={"Start Rating"} className={"p-3 px-6"}/>
         
          
