@@ -15,9 +15,9 @@ app.use(
     credentials: true,
   })
 );
-app.get("/", (req, res) => {
-  res.send("hello");
-});
+
+
+
 
 const teacherRoute = require("./routes/teacher");
 
@@ -31,6 +31,10 @@ app.use("/api/v1/user", userRoute);
 
 const adminRoute = require("./routes/admin");
 app.use("/api/v1/admin", adminRoute);
+
+app.get("/",(req,res)=>{
+res.send("hello");
+})
 
 app.listen(PORT, () => {
   console.log(`Server is running at http:localhost:${PORT}`);
