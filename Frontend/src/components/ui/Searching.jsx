@@ -14,7 +14,7 @@ function Searching() {
                 abortControllerRef.current.abort(); 
             }
             abortControllerRef.current = new AbortController(); 
-            fetchTeachers(query, order, abortControllerRef.current.signal);
+            fetchTeachers(query, order,"true", abortControllerRef.current.signal);
         }, 300),
         [fetchTeachers]
     );

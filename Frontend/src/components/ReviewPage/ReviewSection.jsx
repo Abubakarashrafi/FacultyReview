@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaBook, FaClock, FaChalkboardTeacher, FaUserCheck, FaStar } from "react-icons/fa";
 import RatingItem from "./RatingItem";
 import axios from "axios";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useTeachers } from "../../context/TeachersContext";
 import { showSuccessToast } from "../../utils/toast";
 import { handleApiError } from "../../utils/errorhandler";
@@ -42,7 +42,7 @@ function ReviewSection({name}) {
     };
     const overallRating = (grading + workload + teaching + attendance) / 4;
     const id = teacherId || teachers?.find((teacher) => teacher.name === name)?.id;
-
+    const navigate = useNavigate();
     const handleOnSubmit = async()=>{
         setLoading(true);
         try {
@@ -58,10 +58,11 @@ function ReviewSection({name}) {
            }
         )
            showSuccessToast("Review Submitted Successfully");
+           navigate("/")
             
             
         } catch (error) {
-            console.log(error);
+           
             
             handleApiError(error);
 

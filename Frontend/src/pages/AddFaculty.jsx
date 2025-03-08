@@ -8,7 +8,7 @@ import Button from "../components/ui/Button"
 import { useNavigate } from 'react-router'
 import axios from 'axios'
 import { useTeachers } from '../context/TeachersContext'
-import { handleApiError } from '../utils/errorhandler'
+import { handleApiError } from '../utils/errorHandler'
 import { showSuccessToast } from '../utils/toast'
 
 function AddFaculty() {
@@ -17,36 +17,36 @@ function AddFaculty() {
   const [fullname, setFullname] = useState("");
   const [department, setDepartment] = useState("");
   const navigate = useNavigate();
-  const [isDisable,setisDisable] = useState(true);
-  const [loading,setLoading] = useState(false);
-  
+  const [isDisable, setisDisable] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(()=>{
-    setisDisable(!(courses.length>0 && fullname.trim()!=='' && department.trim()!==''));
-  },[courses,fullname,department])
 
-  const handleSubmit = async()=>{
+  useEffect(() => {
+    setisDisable(!(courses.length > 0 && fullname.trim() !== '' && department.trim() !== ''));
+  }, [courses, fullname, department])
+
+  const handleSubmit = async () => {
     setLoading(true);
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/teacher`,{
-      name:fullname,
-      courses
-      
-    },
-    {
-      withCredentials:true  
-    }
-      
-  )
-      showSuccessToast("Teacher added successfully. Pending admin approval.");  
+      await axios.post(`${import.meta.env.VITE_API_URL}/teacher`, {
+        name: fullname,
+        courses
+
+      },
+        {
+          withCredentials: true
+        }
+
+      )
+      showSuccessToast("Teacher added successfully. Pending admin approval.");
       setFullname("");
       setCourses([]);
       setDepartment("");
 
     } catch (error) {
-      console.log(error.message);
-      
-       handleApiError(error);
+
+
+      handleApiError(error);
     } finally {
       setLoading(false);
     }
@@ -67,7 +67,7 @@ function AddFaculty() {
     <div className='container'>
       <div className='py-20 '>
 
-        <Navigation text={"Back to Home"}/>
+        <Navigation text={"Back to Home"} />
         <div className='sm:p-6   py-6'>
           <div className="max-w-4xl mx-auto space-y-10">
             <div>
@@ -102,7 +102,7 @@ function AddFaculty() {
                       onClick={handleClick}
                       className=' px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg'>Add </button>
                   </div>
-                      <p className='mt-2 text-gray-500 text-xs'>You can add multiple courses one by one.</p>
+                  <p className='mt-2 text-gray-500 text-xs'>You can add multiple courses one by one.</p>
                   {courses?.length > 0 ? (
 
                     <div className='flex flex-wrap mt-4 gap-x-3'>
@@ -110,7 +110,7 @@ function AddFaculty() {
 
                         <div
                           key={course}
-                          className="bg-blue-600/10 gap-1    px-4 py-2 rounded-full flex items-center"
+                          className="bg-blue-600/10 gap-1 mb-2   px-4 py-2 rounded-full flex items-center"
                         >
                           <span className="text-sm text-blue-700 font-medium">{course}  </span>
                           <button onClick={() => handleDeleteCourse(course)}
@@ -135,21 +135,21 @@ function AddFaculty() {
 
 
 
-        <div className='flex justify-end gap-4'>
-          <Button  
-          onClick={()=>navigate("/")}
-          className={'hover:bg-red-600  bg-red-700 text-white px-4 py-2.5 text-sm' }
-          
-          text={"Cancel"}
-          
-          />
-          <button  
-          disabled={isDisable || loading}
-          onClick={handleSubmit}
-          className={`px-4 py-2.5 rounded-md
-             text-white text-sm ${isDisable ? "cursor-not-allowed bg-gray-400 " : "bg-blue-600  hover:bg-blue-700"}` }
-          
-          >
+            <div className='flex justify-end gap-4'>
+              <Button
+                onClick={() => navigate("/")}
+                className={'hover:bg-red-600  bg-red-700 text-white px-4 py-2.5 text-sm'}
+
+                text={"Cancel"}
+
+              />
+              <button
+                disabled={isDisable || loading}
+                onClick={handleSubmit}
+                className={`px-4 py-2.5 rounded-md
+             text-white text-sm ${isDisable ? "cursor-not-allowed bg-gray-400 " : "bg-blue-600  hover:bg-blue-700"}`}
+
+              >
                 {loading ? (
                   <div className="flex items-center justify-center">
                     <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
@@ -157,8 +157,8 @@ function AddFaculty() {
                 ) : (
                   "Add Faculty"
                 )}
-          </button>
-        </div>
+              </button>
+            </div>
           </div>
         </div>
       </div>

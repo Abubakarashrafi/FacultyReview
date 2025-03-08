@@ -1,7 +1,7 @@
 const express = require("express");
 const teacherRoute = express.Router();
 const { createTeacher,getAllTeachers,getTeacher,getUserReviewedTeachers } = require("../controller/teacher.js");
-const auth = require("../middleware/auth");
+const {auth} = require("../middleware/auth");
 
 
 teacherRoute.get("/", getAllTeachers);

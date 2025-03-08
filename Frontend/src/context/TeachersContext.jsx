@@ -12,15 +12,20 @@ export const TeacherProvider = ({children})=>{
     
    
 
-    const fetchTeachers = useCallback(async(query,order,signal)=>{
+    const fetchTeachers = useCallback(async(query,order,approved,signal)=>{
     setLoading(true);
     setError(null);
 
     try {
-        const resp = await axios.get(`${import.meta.env.VITE_API_URL}/teacher`,{
-            params:{search:query,order},
-            signal,
-        });
+        const config = {
+            params: { search: query, order },
+        };
+        
+        if(approved!==undefined) config.params.approved = approved;
+        if (signal) {
+            config.signal = signal;
+        }
+        const resp = await axios.get(`${import.meta.env.VITE_API_URL}/teacher`,config);
         setTeachers(resp.data.formattedTeachers);
        
        
@@ -39,6 +44,9 @@ export const TeacherProvider = ({children})=>{
     setError(null);
     try {
         const resp = await axios.get(`${import.meta.env.VITE_API_URL}/teacher/${id}`);
+        
+        
+        
         setTeacher(resp.data);
        
     } catch (error) {

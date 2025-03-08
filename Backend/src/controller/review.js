@@ -3,7 +3,7 @@ const prisma = require(".././db/db.config");
 
 const createReview = async (req, res) => {
   try {
-    console.log("hello");
+   
     
     const userId = req.user?.id;
     const { grading, workload, teaching,attendance } = req.body;

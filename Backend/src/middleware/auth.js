@@ -6,9 +6,13 @@ const auth = async(req,res,next)=>{
    
     
       try {
+        
         const authToken = req.cookies?.authToken; 
+        
     
         if (!authToken) {
+        
+          
           const sessionToken = uuidv4();
          const newUser= await prisma.user.create({
             data:{
@@ -19,8 +23,8 @@ const auth = async(req,res,next)=>{
           })
           res.cookie("authToken", sessionToken, {
             httpOnly: true,
-            secure: true,
-            sameSite: "Strict",
+            secure: false,
+            sameSite: "Lax",
             maxAge: 10 * 365 * 24 * 60 * 60 * 1000,
           });
            req.user = { id: newUser.id, role: newUser.role };
@@ -47,13 +51,42 @@ const auth = async(req,res,next)=>{
         req.user = session;
         next();
       } catch (error) {
-        console.log(error.message);
+       
+       
         res.status(500).json({ error: "Server error" });
       }
     };
+const isAdmin = async (req, res, next) => {
+  try {
+     const authToken = req.cookies?.authToken; 
+       
+        if(!authToken) return res.json({error:"no token"});
+    const session = await prisma.user.findUnique({
+      where: {
+        authId: authToken,
+      },
+      select: {
+        id: true,
+        role: true,
+      },
+    });
+    req.user = session;
+    
+    const userRole = req.user?.role;
 
- 
+    // Check if the user is an admin
+    if (userRole === "ADMIN") {
+      return next(); // Allow access
+    }
 
+   
+    return res
+      .status(403)
+      .json({ error: "Access denied. Admin privileges required." });
+  } catch (error) {
+    console.error("Error in isAdmin middleware:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
 
-
-module.exports = auth;
+module.exports = {isAdmin,auth};

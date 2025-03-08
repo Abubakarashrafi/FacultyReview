@@ -3,10 +3,10 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
    container: {
-      center: true, // Center the container by default
+      center: true, 
       padding: {
-        DEFAULT: '1rem', // Default padding
-        sm: '2rem', // Padding for sm breakpoint
+        DEFAULT: '1rem', 
+        sm: '2rem', 
        
       },
     }

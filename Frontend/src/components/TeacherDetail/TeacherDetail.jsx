@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
-import { FaChalkboardTeacher, FaBalanceScale, FaHardHat, FaUserClock } from 'react-icons/fa'; // 
-
+import { FaChalkboardTeacher, FaBalanceScale, FaHardHat, FaUserClock } from 'react-icons/fa'; 
 import Navigation from './Navigation';
 import CircularRatingLoader from './CircularRatingLoader';
 import Heading from './Heading';
@@ -79,13 +78,13 @@ function TeacherDetail() {
                         <Heading heading={"Courses Taught"} descriptiom={"Classes offered by this professor"} />
                         <ul className="space-y-4 my-4">
 
-                            {teacher?.courses?.map((name, index) => (
+                            {teacher?.courses?.map((course, index) => (
 
                                 <li key={index} className="p-2 bg-white shadow-sm rounded-lg flex gap-4 items-center hover:bg-slate-100">
                                     <div className='w-6 h-6 flex items-center    justify-center rounded-full border text-xs'>
                                         {index + 1}
                                     </div>
-                                    <h3 className="text-lg font-semibold text-gray-700">{name}</h3>
+                                    <h3 className="text-lg font-semibold text-gray-700">{course.name}</h3>
 
                                 </li>
                             ))}

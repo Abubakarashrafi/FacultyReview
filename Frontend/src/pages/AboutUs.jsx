@@ -30,7 +30,7 @@ const AboutUs = () => {
     const socialIconsCard2 = [
         { icon: <LuGithub size={20} />, link: "https://github.com/izhan77"},
         { icon: <LuLinkedin size={20} />, link: "https://www.linkedin.com/in/izhan7/" },
-        { icon: <LuMail size={20} />, link: "mailto:user2@example.com"},
+        { icon: <LuMail size={20} />, link: "mailto:izhan.waheed12@gmail.com"},
     ];
         
     
@@ -182,7 +182,7 @@ const AboutUsCard = ({icons,socialIcons,name,stack,description})=>{
                 <div className="flex flex-wrap items-center justify-center space-y-1 px-1 gap-2">
                 {icons?.map((icon,index)=>(
 
-                <div key={index} className="bg-blue-600/10 gap-1  shrink-0  px-3 py-1 rounded-full flex items-center">
+                <div key={icon?.name} className="bg-blue-600/10 gap-1  shrink-0  px-3 py-1 rounded-full flex items-center">
                     {icon?.icon}
                     <span className="text-xs font-medium">{icon?.name}</span>
                 </div>

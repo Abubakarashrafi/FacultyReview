@@ -18,7 +18,7 @@ function Navbar() {
 
             <NavTab to={"/"} className={""} text={"Home"} />
             <NavTab to={"/add-review"} className={""} text={"Add Reviews"} />
-            <NavTab to={"/My-reviews"} className={""} text={"My Reviews"} />
+            <NavTab to={"/My-review"} className={""} text={"My Reviews"} />
             <NavTab to={"/about-us"} className={""} text={"About us"} />
 
 

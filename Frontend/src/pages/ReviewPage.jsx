@@ -24,7 +24,8 @@ function ReviewPage() {
 
       const presetTeacher = teachers?.find((teacher) => teacher.id === teacherId);
       if (presetTeacher) {
-
+        console.log(presetTeacher.courses);
+        
         setQuery(presetTeacher.name);
         setCourses(presetTeacher.courses)
       }

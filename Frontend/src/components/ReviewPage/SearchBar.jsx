@@ -10,7 +10,7 @@ function SearchBar({ query, setQuery, isDropDownVisible, setisDropDownVisible, s
     const FetchTeachers = useCallback(
         debounce((query) => {
             const controller = new AbortController();
-            fetchTeachers(query, "asc", controller.signal);
+            fetchTeachers(query, "asc","true", controller.signal);
             return () => controller.abort();
         }, 300),
         [fetchTeachers]
@@ -30,6 +30,7 @@ function SearchBar({ query, setQuery, isDropDownVisible, setisDropDownVisible, s
         setQuery(teacher?.name);
         setisDropDownVisible(false);
         setCourses(teacher?.courses)
+       
         
 
     }

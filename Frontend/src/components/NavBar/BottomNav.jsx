@@ -47,7 +47,7 @@ const BottomNav = () => {
                     
                
                 <NavButton 
-                to={"/My-reviews"}
+                to={"/My-review"}
                 name="Reviews">
                     <svg
                         className="w-6 h-6 text-gray-500 group-hover:text-blue-600"

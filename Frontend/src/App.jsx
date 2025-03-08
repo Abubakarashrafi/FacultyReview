@@ -9,7 +9,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; 
 import AddFaculty from "./pages/AddFaculty";
 import AboutUs from "./pages/Aboutus";
-// import AdminPanel from "./pages/AdminPanel";
+import AdminPanel from "./pages/Admin";
+import TeacherEdit from "./pages/TeacherEdit"
+import MyReview from "./pages/MyReview";
 
 
 const App = () => {
@@ -35,15 +37,27 @@ const App = () => {
           path:"/add-faculty",
           element: <AddFaculty/>
         },
-      // {
-      //   path:"/admin",
-      //   element: <AdminPanel />,
-        
-      // },
+     
       {
         path:"/about-us",
         element:<AboutUs/>
-      }
+      },
+        {
+          path: "/admin",
+          element: <AdminPanel />,
+        },
+            {
+              path:"/admin/edit/:id",
+              element:<TeacherEdit/>
+            },
+            {
+              path:"/My-review",
+              element:<MyReview/>
+            }
+          
+        
+        
+     
       ]
     },
 

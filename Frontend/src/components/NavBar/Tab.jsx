@@ -5,7 +5,7 @@ function NavTab({ text, to, className }) {
   return (
     <NavLink to={to} end>
       {({ isActive }) => {
-        console.log("isActive:", isActive, "to:", to); // Debugging
+       
         return (
           <button
             className={`${className} text-sm transition-all duration-300 text-slate-500 hover:text-[#2563EB] font-medium ${isActive ? "text-[#2563EB] font-bold" : ""

@@ -1,22 +1,23 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const app = express();
 const PORT = 4000 || process.env.PORT;
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // Replace with your frontend domain
-    credentials: true, // Allow credentials (cookies)
+    origin: process.env.ALLOWED_ORIGINS,
+    credentials: true,
   })
 );
 app.get("/", (req, res) => {
-    res.send("hello");
-})
-
+  res.send("hello");
+});
 
 const teacherRoute = require("./routes/teacher");
 
@@ -29,10 +30,8 @@ const userRoute = require("./routes/user");
 app.use("/api/v1/user", userRoute);
 
 const adminRoute = require("./routes/admin");
-app.use("/api/v1/admin", adminRoute);    
-
+app.use("/api/v1/admin", adminRoute);
 
 app.listen(PORT, () => {
-    console.log(`Server is running at http:localhost:${PORT}`);
-
-})
+  console.log(`Server is running at http:localhost:${PORT}`);
+});

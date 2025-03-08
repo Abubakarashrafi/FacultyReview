@@ -66,11 +66,20 @@ const createTeacher = async (req, res) => {
 const getAllTeachers = async (req, res) => {
   try {
     
-    let { search,order } = req.query;
-    order = order === "asc" ? "ASC" : "DESC"; // Default to DESC
+    let { search,order,approved } = req.query;
+   
+    
+    if(approved==="true") approved=true;
+    else approved = false;
+  
+   
+    
+    
+   
+    order = order === "asc" ? "ASC" : "DESC"; 
 
-    // Construct WHERE clause dynamically
-    let whereClause = `WHERE t.approved = true AND (`;
+    
+    let whereClause = `WHERE t.approved = ${approved} AND (`;
      whereClause += ` LOWER(t.name) LIKE LOWER('%${search}%')`;
       whereClause += ` OR EXISTS (
       SELECT 1 FROM "TeacherCourse" tc 
@@ -79,11 +88,12 @@ const getAllTeachers = async (req, res) => {
       AND LOWER(c.name) LIKE LOWER('%${search}%')
   ) )`;
 
-    // Query to fetch teachers, calculate avgRating, filter, and sort
+    
   const teachers = await prisma.$queryRawUnsafe(`
   SELECT 
     t.id, 
     t.name, 
+    t.approved,
     COALESCE(t."TotalReviews" / NULLIF(4 * (SELECT COUNT(*) FROM "Review" r WHERE r."teacherId" = t.id), 0), 0) AS "avgRating",
     (SELECT COUNT(*) FROM "Review" r WHERE r."teacherId" = t.id)::TEXT AS "reviewCount", -- Corrected review count
     json_agg(DISTINCT c.name) AS courses
@@ -137,12 +147,16 @@ const getTeacher = async (req, res) => {
         courses: {
           select: {
             course: true,
+           
           },
         },
       },
     });
     if (!teacher) return res.status(404).json({ error: "Teacher not found" });
-    const formattedCourses = teacher.courses.map((c) => c.course.name);
+    const formattedCourses = teacher.courses.map((c) => ({
+      id:c.course.id,
+      name:c.course.name
+    }))
     const { courses,reviews, ...rest } = teacher;
      const avgGrading =
        teacher.TotalGrading_Review / teacher.reviews.length || 0;
@@ -153,12 +167,14 @@ const getTeacher = async (req, res) => {
      const avgAttendance =
        teacher.TotalAttendance_Review / teacher.reviews.length || 0;
 
-     // Calculate overall average
+     
      const overallAverage =
        (avgGrading + avgWorkload + avgTeaching + avgAttendance) / 4;
     return res.status(200).json({
       teacher: rest,
       courses: formattedCourses,
+
+
       avgGrading: Number(avgGrading.toFixed(2)),
       avgWorkload: Number(avgWorkload.toFixed(2)),
       avgTeaching: Number(avgTeaching.toFixed(2)),
