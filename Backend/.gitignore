@@ -9,3 +9,5 @@ coverage/
 prisma/.dev.db
 prisma/migrations/
 
+
+.vercel
