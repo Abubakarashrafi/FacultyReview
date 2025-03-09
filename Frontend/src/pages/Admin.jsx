@@ -3,7 +3,7 @@ import { Users, AlertTriangle, BookOpen, Star } from "lucide-react";
 import TeacherTable from '../components/Admin/TeacherTable';
 import axios from "axios";
 import Button from "../components/ui/Button"
-import { handleApiError } from "../utils/errorhandler";
+import { handleApiError } from "../utils/errorHandler";
 import { Navigate, useNavigate } from "react-router";
 
 const AdminPanel = () => {

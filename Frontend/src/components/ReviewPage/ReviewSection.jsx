@@ -5,7 +5,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import { useTeachers } from "../../context/TeachersContext";
 import { showSuccessToast } from "../../utils/toast";
-import { handleApiError } from "../../utils/errorhandler";
+import { handleApiError } from "../../utils/errorHandler";
 function ReviewSection({name}) {
      
     const [grading, setGrading] = useState(0);

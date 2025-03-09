@@ -1,4 +1,5 @@
 import React from "react";
+import {Analytics} from "@vercel/analytics"
 import { RouterProvider, createBrowserRouter } from "react-router"
 import Home from "./pages/Home";
 import Layout from "./components/Layout";
@@ -77,7 +78,8 @@ const App = () => {
             pauseOnFocusLoss
             draggable
             pauseOnHover
-          />
+            />
+            <Analytics/>
    <RouterProvider router={router}/>
    </div>
    </TeacherProvider>
