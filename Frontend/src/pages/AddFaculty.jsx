@@ -7,8 +7,8 @@ import { TiDeleteOutline } from "react-icons/ti";
 import Button from "../components/ui/Button"
 import { useNavigate } from 'react-router'
 import axios from 'axios'
-import { handleApiError } from '../utils/errorHandler'
 import { showSuccessToast } from '../utils/toast'
+import { handleApiError } from '../utils/errorhandler' 
 
 function AddFaculty() {
   const [courses, setCourses] = useState([]);
