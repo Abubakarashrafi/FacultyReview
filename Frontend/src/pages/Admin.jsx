@@ -3,11 +3,13 @@ import { Users, AlertTriangle, BookOpen, Star } from "lucide-react";
 import TeacherTable from '../components/Admin/TeacherTable';
 import axios from "axios";
 import Button from "../components/ui/Button"
+import { handleApiError } from "../utils/errorhandler";
+import { Navigate, useNavigate } from "react-router";
 
 const AdminPanel = () => {
     const [analytics, setAnalytics] = useState({ pending: 0, totalReviews: 0, totalTeacher: 0, totalUsers: 0 });
     const [loading, setLoading] = useState(true);
-
+    const navigate = useNavigate();
    
     useEffect(() => {
         const fetchAnalytics = async () => {
@@ -20,7 +22,7 @@ const AdminPanel = () => {
                 setAnalytics(resp.data);
                
             } catch (err) {
-                console.error("Error fetching analytics:", err);
+                handleApiError(err,navigate)
             } finally {
                 setLoading(false);
                 

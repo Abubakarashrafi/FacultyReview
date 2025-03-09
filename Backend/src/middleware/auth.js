@@ -8,6 +8,7 @@ const auth = async(req,res,next)=>{
       try {
         
         const authToken = req.cookies?.authToken; 
+       
         
     
         if (!authToken) {
@@ -28,6 +29,8 @@ const auth = async(req,res,next)=>{
             maxAge: 10 * 365 * 24 * 60 * 60 * 1000,
           });
            req.user = { id: newUser.id, role: newUser.role };
+          
+           
            return next();
     }
 
@@ -81,8 +84,8 @@ const isAdmin = async (req, res, next) => {
 
    
     return res
-      .status(403)
-      .json({ error: "Access denied. Admin privileges required." });
+      .status(412)
+      .json({ error: "Access denied. Admin privileges required.",status:412 });
   } catch (error) {
     console.error("Error in isAdmin middleware:", error);
     return res.status(500).json({ error: "Internal server error" });

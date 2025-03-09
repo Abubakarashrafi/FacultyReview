@@ -1,12 +1,19 @@
 import { showErrorToast } from "./toast";
-
-export const handleApiError = (error) => {
-   
+import { useNavigate } from "react-router";
+export const handleApiError = (error,navigate) => {
+    
 
     if (error.response) {
+      
         
-        
-      showErrorToast(error.response.data.error);
+        if(error.response.status===412){
+            navigate("/");
+        }else{
+
+            
+            
+            showErrorToast(error.response.data.error);
+        }
       
         
         

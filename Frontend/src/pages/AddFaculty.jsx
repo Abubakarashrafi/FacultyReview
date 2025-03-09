@@ -7,7 +7,6 @@ import { TiDeleteOutline } from "react-icons/ti";
 import Button from "../components/ui/Button"
 import { useNavigate } from 'react-router'
 import axios from 'axios'
-import { useTeachers } from '../context/TeachersContext'
 import { handleApiError } from '../utils/errorHandler'
 import { showSuccessToast } from '../utils/toast'
 
