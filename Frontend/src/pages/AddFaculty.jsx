@@ -135,8 +135,8 @@ function AddFaculty() {
 
 
             <div className='flex justify-end gap-4'>
-              <Button
-                onClick={() => navigate("/")}
+              <button
+                onClick={() => {navigate("/"); window.scrollTo(0,0)}}
                 className={'hover:bg-red-600  bg-red-700 text-white px-4 py-2.5 text-sm'}
 
                 text={"Cancel"}

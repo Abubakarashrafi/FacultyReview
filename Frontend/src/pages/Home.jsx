@@ -17,15 +17,22 @@ function Home() {
         <Hero />
       </div>
 
-      <div className='bg-white py-10 container'>
-        <div className='md:flex   justify-between items-center bg-white/10 backdrop-blur-sm rounded-lg shadow-sm'>
+      <div className='bg-white py-10 container border-2'>
+        
+
+
+        <div className='md:flex   justify-between items-center bg-white/10  rounded-lg  '>
+
+    
 
       <h2 className='font-semibold text-2xl text-gray-800'>Faculty Directory</h2>
       <div className=' sm:flex   gap-4 my-4 md:my-0 '>
         <div className=''>
 
         <Searching/>
-        </div>
+        
+        
+    </div>
        
         
         </div>
@@ -34,10 +41,10 @@ function Home() {
          {loading ? (
           <Loader/>
          )
-        : 
+         : 
          
-      teachers?.length >0 ? (
-        
+         teachers?.length >0 ? (
+           
         <div className='py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
         {teachers.map((data)=>(
           <div key={data?.id}
@@ -48,7 +55,7 @@ function Home() {
           ))}
           </div>
         ) : (
-
+          
           <div>
           <NotFound/>
           </div>
@@ -71,7 +78,7 @@ function Home() {
           <Button 
           href={"/add-review"}
            color={"PRIMARY"}
-          text={"Start Rating"} className={"p-3 px-6"}/>
+           text={"Start Rating"} className={"p-3 px-6"}/>
         
          
       </div>
@@ -94,4 +101,5 @@ function Home() {
   )
 }
 
+           
 export default Home

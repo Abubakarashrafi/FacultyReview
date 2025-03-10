@@ -6,6 +6,7 @@ import Heading from './Heading';
 import TeacherDetailCard from './TeacherDetailCard';
 import { useParams } from 'react-router';
 import { useTeachers } from '../../context/TeachersContext';
+import Loader from "../ui/Loader"
 
 
 
@@ -18,6 +19,8 @@ function TeacherDetail() {
             fetchTeacherById(id);
         }
     }, [id, fetchTeacherById]);
+
+    if(loading) return <Loader/>
 
     
     return (

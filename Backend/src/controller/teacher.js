@@ -14,12 +14,7 @@ const createTeacher = async (req, res) => {
             "Name and courses are required. Please provide a valid name and a list of courses.",
         });
 
-    const User = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-    if (!User) return res.status(403).json({ error: "user not found" });
+   
 
     const isTeacher = await prisma.teacher.findUnique({
       where: {
@@ -183,6 +178,7 @@ const getTeacher = async (req, res) => {
       ReviewCount: teacher.reviews.length,
     });
   } catch (error) {
+   
    
     return res.status(500).json({ error: "internal server error" });
   }

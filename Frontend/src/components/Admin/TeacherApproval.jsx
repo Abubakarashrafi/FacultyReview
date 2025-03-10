@@ -7,7 +7,7 @@ import { showSuccessToast } from '../../utils/toast'
 import { useNavigate } from "react-router";
 
 const TeacherApproval = ({ status,id }) => {
-    const {teachers} = useTeachers();
+    
     const navigate = useNavigate();
 
     const handleDelete = async()=>{
@@ -70,7 +70,7 @@ const TeacherApproval = ({ status,id }) => {
                     onClick={handleDelete}
                     className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600" />
                 </button>
-                {!(teachers.approved) && (
+                {(!status) && (
 
                     <button
                     onClick={handleApprove}

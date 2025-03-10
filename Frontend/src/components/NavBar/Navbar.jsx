@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router'
 function Navbar() {
   const navigate = useNavigate();
   return (
-    <div className='fixed  w-full bg-white'>
+    <div className='fixed z-50  w-full bg-white border-b'>
 
       <nav className='  container  '>
 

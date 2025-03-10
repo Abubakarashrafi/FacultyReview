@@ -32,7 +32,7 @@ function TeacherCard({rating,name,totalRatings,courses=[],id}) {
       </div>
       <div className='flex justify-between p-4 bg-gray-100'>
      
-        <Button href={`/teacher/${id}`}  className='text-sm p-2 rounded-lg font-medium'
+        <Button onClick={ window.scrollTo(0,0)} href={`/teacher/${id}`}  className='text-sm p-2 rounded-lg font-medium'
         color={"DEFAULT"}
         text={"View Details"}
         />

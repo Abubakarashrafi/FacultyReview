@@ -9,14 +9,27 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+
+const allowedOrigins = process.env.ALLOWED_ORIGINS;
+
 app.use(
   cors({
-    origin: process.env.ALLOWED_ORIGINS,
+    origin: function (origin, callback) {
+      if (
+        !origin ||
+        allowedOrigins.includes(origin) ||
+        origin.startsWith(process.env.ALLOWED_ORIGINS)
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
 
-
+app.options("*", cors());
 
 
 const teacherRoute = require("./routes/teacher");

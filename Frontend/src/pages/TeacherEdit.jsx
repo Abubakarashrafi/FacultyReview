@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import Input from "../components/ui/Input"
 import { useTeachers } from "../context/TeachersContext"
-import { data, useParams } from "react-router"
+import { useParams } from "react-router"
 import axios from 'axios';
 import { showErrorToast, showSuccessToast } from "../utils/toast"
 import { handleApiError } from "../utils/errorHandler"
 import { TiDeleteOutline } from "react-icons/ti"
+import Loader from "../components/ui/Loader"
 
 function TeacherEdit() {
   const { teacher, fetchTeacherById, loading } = useTeachers();
@@ -79,7 +80,7 @@ function TeacherEdit() {
     }
   }
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Loader/>
 
   return (
     <div className='container py-20'>

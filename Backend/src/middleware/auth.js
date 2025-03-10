@@ -24,8 +24,8 @@ const auth = async(req,res,next)=>{
           })
           res.cookie("authToken", sessionToken, {
             httpOnly: true,
-            secure: false,
-            sameSite: "Lax",
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "none",
             maxAge: 10 * 365 * 24 * 60 * 60 * 1000,
           });
            req.user = { id: newUser.id, role: newUser.role };
@@ -56,7 +56,7 @@ const auth = async(req,res,next)=>{
       } catch (error) {
        
        
-        res.status(500).json({ error: "Server error" });
+        res.status(500).json({ error: "Server error",err:error.message });
       }
     };
 const isAdmin = async (req, res, next) => {

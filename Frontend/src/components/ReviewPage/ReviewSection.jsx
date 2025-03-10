@@ -42,7 +42,7 @@ function ReviewSection({name}) {
     };
     const overallRating = (grading + workload + teaching + attendance) / 4;
     const id = teacherId || teachers?.find((teacher) => teacher.name === name)?.id;
-    const navigate = useNavigate();
+   
     const handleOnSubmit = async()=>{
         setLoading(true);
         try {
@@ -58,7 +58,7 @@ function ReviewSection({name}) {
            }
         )
            showSuccessToast("Review Submitted Successfully");
-           navigate("/")
+        
             
             
         } catch (error) {
