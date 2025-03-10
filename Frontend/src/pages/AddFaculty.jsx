@@ -137,11 +137,11 @@ function AddFaculty() {
             <div className='flex justify-end gap-4'>
               <button
                 onClick={() => {navigate("/"); window.scrollTo(0,0)}}
-                className={'hover:bg-red-600  bg-red-700 text-white px-4 py-2.5 text-sm'}
+                className={'hover:bg-red-600  bg-red-700 text-white px-4 py-2.5 text-sm rounded-md'}
 
-                text={"Cancel"}
+                
 
-              />
+              >Cancel</button>
               <button
                 disabled={isDisable || loading}
                 onClick={handleSubmit}
